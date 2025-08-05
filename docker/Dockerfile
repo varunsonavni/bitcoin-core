@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Bitcoin Core version
-ENV BITCOIN_VERSION=27.1
+ENV BITCOIN_VERSION=28.1
 
 # Download and verify Bitcoin Core
 RUN wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-x86_64-linux-gnu.tar.gz \

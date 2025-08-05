@@ -1,5 +1,6 @@
 up:
 	cd docker && docker-compose up -d
+	sleep 10
 
 stop:
 	cd docker && docker-compose stop
@@ -20,5 +21,17 @@ status:
 	cd docker && docker-compose ps
 
 test:
-	curl -u bitcoin:bitcoin123 -X POST http://localhost:18443 -H "Content-Type: application/json" -d '{"jsonrpc":"1.0","id":"test","method":"getblockchaininfo","params":[]}'
-	curl -u bitcoin:bitcoin123 -X POST http://localhost:18453 -H "Content-Type: application/json" -d '{"jsonrpc":"1.0","id":"test","method":"getblockchaininfo","params":[]}'
+	curl -u bitcoin:bitcoin123 -X POST http://localhost:18443 -H "Content-Type: application/json" -d '{"jsonrpc":"1.0","id":"test","method":"getblockchaininfo","params":[]}' | jq .
+	curl -u bitcoin:bitcoin123 -X POST http://localhost:18453 -H "Content-Type: application/json" -d '{"jsonrpc":"1.0","id":"test","method":"getblockchaininfo","params":[]}' | jq .
+
+setup:
+	./scripts/setup-network.sh
+
+mine:
+	./scripts/mine-blocks.sh 101
+
+send:
+	./scripts/send-transaction.sh 18443 18453 5.0
+
+demo:
+	./scripts/demo.sh
