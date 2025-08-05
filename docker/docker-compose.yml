@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  bitcoin-node1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bitcoin-node1
+    environment:
+      - NODE_NAME=node1
+    ports:
+      - "18443:18443"  # RPC port for node1
+      - "18444:18444"  # P2P port for node1
+    volumes:
+      - bitcoin-node1-data:/home/bitcoin/.bitcoin
+      - ../config/bitcoin1.conf:/home/bitcoin/.bitcoin/bitcoin.conf:ro
+    networks:
+      - bitcoin-regtest
+    command: ["bitcoind", "-conf=/home/bitcoin/.bitcoin/bitcoin.conf"]
+    
+  bitcoin-node2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bitcoin-node2
+    environment:
+      - NODE_NAME=node2
+    ports:
+      - "18453:18443"  # RPC port for node2 (different external port)
+      - "18454:18444"  # P2P port for node2 (different external port)
+    volumes:
+      - bitcoin-node2-data:/home/bitcoin/.bitcoin
+      - ../config/bitcoin2.conf:/home/bitcoin/.bitcoin/bitcoin.conf:ro
+    networks:
+      - bitcoin-regtest
+    command: ["bitcoind", "-conf=/home/bitcoin/.bitcoin/bitcoin.conf"]
+    depends_on:
+      - bitcoin-node1
+
+volumes:
+  bitcoin-node1-data:
+    driver: local
+  bitcoin-node2-data:
+    driver: local
+
+networks:
+  bitcoin-regtest:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
