@@ -253,6 +253,38 @@ This project demonstrates good Git hygiene:
 - **Comprehensive testing** of all functionality
 - **Clean code structure** with reusable components
 
-## License
+## Quick Command Summary
 
-MIT License - Educational and development use.
+**Complete workflow in one sequence:**
+
+Run the entire Bitcoin regtest demonstration from start to finish:
+
+**Step 1: Start Containers**
+```bash
+make up
+```
+
+**Step 2: Connect Nodes**
+```bash
+make setup
+```
+
+**Step 3: Mine Blocks**
+```bash
+make mine
+```
+
+**Step 4: Send Transaction**
+```bash
+make send
+```
+
+**Step 5: Check Status**
+```bash
+make status
+```
+
+**Step 6: Clean Up**
+```bash
+make clean
+```
